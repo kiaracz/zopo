@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172554">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Procvičování ZO">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="description" content="Procvičování otázek k odborné způsobilosti pro zbrojní oprávnění.">
+  <title>Zbrojní oprávnění - procvičování otázek</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="site-header">
+      <div class="brand-mark" aria-hidden="true">ZO</div>
+      <div>
+        <h1>Zbrojní oprávnění</h1>
+        <p class="subtitle">Procvičování otázek</p>
+      </div>
+    </header>
+
+    <section id="loading" class="panel status-panel" aria-live="polite">Načítám otázky…</section>
+    <section id="error" class="panel status-panel error-panel" role="alert" hidden>
+      <h2>Otázky se nepodařilo načíst</h2>
+      <p>Zkontroluj, že soubor <code>questions.json</code> je vedle souboru <code>index.html</code> a web je spuštěný přes webový server (například GitHub Pages), ne přímo jako soubor <code>file://</code>.</p>
+    </section>
+
+    <section id="quiz" hidden>
+      <div class="progress-row">
+        <span id="progress-label">Otázka 1 z 837</span>
+        <span id="score-label">Správně: 0</span>
+      </div>
+      <div class="progress-track" aria-hidden="true"><div id="progress-bar" class="progress-bar"></div></div>
+
+      <article class="panel question-panel">
+        <div class="question-number" id="question-number">Otázka č. 1</div>
+        <div id="question-images" class="question-images" hidden></div>
+        <h2 id="question-text" class="question-text"></h2>
+        <div id="answers" class="answers" role="group" aria-label="Možnosti odpovědi"></div>
+        <div class="actions">
+          <button id="next-button" class="primary-button" type="button" disabled>Další otázka <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+      <p class="footer-note">Zdroj: <a href="https://mv.gov.cz/zbrojni-opravneni">https://mv.gov.cz/zbrojni-opravneni</a></p>
+    </section>
+
+    <section id="results" class="panel results-panel" hidden aria-live="polite">
+      <div class="result-icon" aria-hidden="true">✓</div>
+      <h2>Hotovo!</h2>
+      <p id="results-summary"></p>
+      <button id="restart-button" class="primary-button" type="button">Procvičovat znovu</button>
+    </section>
+  </main>
+</body>
+</html>
