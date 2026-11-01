@@ -145,12 +145,3 @@ function nextQuestion() {
 els.nextButton.addEventListener('click', nextQuestion);
 els.restartButton.addEventListener('click', startQuiz);
 init();
-
-// enable offline usage after a first visit and an installation on supported devices
-if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js').catch(error => {
-      console.warn('Service worker se nepodařilo zaregistrovat:', error);
-    });
-  });
-}
