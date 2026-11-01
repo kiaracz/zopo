@@ -1,6 +1,5 @@
 const els = {
   loading: document.querySelector('#loading'),
-  error: document.querySelector('#error'),
   quiz: document.querySelector('#quiz'),
   results: document.querySelector('#results'),
   progressLabel: document.querySelector('#progress-label'),
@@ -12,17 +11,19 @@ const els = {
   answers: document.querySelector('#answers'),
   nextButton: document.querySelector('#next-button'),
   resultsSummary: document.querySelector('#results-summary'),
-  restartButton: document.querySelector('#restart-button')
+  restartButton: document.querySelector('#restart-button'),
+  replayButton: document.querySelector('#replay-button')
 };
 
-let allQuestions = [];
+const APP_VERSION = "v1";
+
 let questions = [];
+let indices = [];
 let currentIndex = 0;
 let correctCount = 0;
-let answered = false;
 
-function shuffle(items) {
-  const result = [...items];
+function getRandomIndices() {
+  const result = Array.from({ length: questions.length }, (_, i) => i);
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
@@ -31,37 +32,51 @@ function shuffle(items) {
 }
 
 async function init() {
-  try {
-    const response = await fetch('questions.json');
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
-    if (!Array.isArray(data.questions) || data.questions.length === 0) {
-      throw new Error('Soubor neobsahuje seznam otázek.');
-    }
-    allQuestions = data.questions;
-    startQuiz();
-  } catch (error) {
-    console.error('Načtení otázek selhalo:', error);
-    els.loading.hidden = true;
-    els.error.hidden = false;
+  const response = await fetch('questions.json');
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = await response.json();
+  questions = data.questions;
+  els.loading.hidden = true;
+  startQuiz();
+}
+
+function loadStatus() {
+  if (localStorage.getItem("version") !== APP_VERSION) {
+    localStorage.setItem("version", APP_VERSION);
+    localStorage.setItem("indices", JSON.stringify(getRandomIndices()));
+    localStorage.setItem("currentIndex", '0');
+    localStorage.setItem("correctCount", '0');
   }
+
+  indices = JSON.parse(localStorage.getItem("indices"));
+  currentIndex = parseInt(localStorage.getItem("currentIndex"));
+  correctCount = parseInt(localStorage.getItem("correctCount"));
+}
+
+function storeStatus() {
+  localStorage.setItem("correctCount", correctCount.toString());
+  localStorage.setItem("currentIndex", currentIndex.toString());
+}
+
+function restart() {
+  localStorage.clear();
+  startQuiz();
 }
 
 function startQuiz() {
-  questions = shuffle(allQuestions);
-  currentIndex = 0;
-  correctCount = 0;
-  answered = false;
+  loadStatus();
   els.loading.hidden = true;
-  els.error.hidden = true;
   els.results.hidden = true;
   els.quiz.hidden = false;
-  renderQuestion();
+  renderScreen();
+}
+
+function getCurrentQuestion() {
+  return questions[indices[currentIndex]];
 }
 
 function renderQuestion() {
-  const question = questions[currentIndex];
-  answered = false;
+  const question = getCurrentQuestion();
   els.progressLabel.textContent = `Otázka ${currentIndex + 1} z ${questions.length}`;
   els.scoreLabel.textContent = `Správně: ${correctCount}`;
   els.progressBar.style.width = `${(currentIndex / questions.length) * 100}%`;
@@ -88,13 +103,13 @@ function renderQuestion() {
   }
 
   els.answers.replaceChildren();
-  question.answers.forEach((answer, index) => {
+  question.answers.forEach((answer) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'answer-button';
     const letter = document.createElement('span');
     letter.className = 'answer-letter';
-    letter.textContent = `${answer.id || String.fromCharCode(65 + index)})`;
+    letter.textContent = `${answer.id})`;
     letter.setAttribute('aria-hidden', 'true');
     const copy = document.createElement('span');
     copy.className = 'answer-copy';
@@ -103,13 +118,12 @@ function renderQuestion() {
     button.addEventListener('click', () => chooseAnswer(answer, button));
     els.answers.append(button);
   });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function chooseAnswer(selectedAnswer, selectedButton) {
-  if (answered) return;
-  answered = true;
-  const question = questions[currentIndex];
-  const correctAnswer = question.answers.find(answer => answer.correct === true);
+  const question = getCurrentQuestion();
   const buttons = [...els.answers.querySelectorAll('button')];
   buttons.forEach((button, index) => {
     button.disabled = true;
@@ -126,22 +140,36 @@ function chooseAnswer(selectedAnswer, selectedButton) {
   els.nextButton.focus({ preventScroll: true });
 }
 
+function renderResult() {
+  els.quiz.hidden = true;
+  els.results.hidden = false;
+  els.progressBar.style.width = '100%';
+  const percent = Math.round((correctCount / questions.length) * 100);
+  els.resultsSummary.textContent = `Správně jsi odpověděl/a na ${correctCount} z ${questions.length} otázek (${percent} %).`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function nextQuestion() {
-  if (!answered) return;
-  if (currentIndex < questions.length - 1) {
-    currentIndex++;
-    renderQuestion();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  currentIndex++;
+  storeStatus();
+  renderScreen();
+}
+
+function renderScreen() {
+  if (currentIndex >= questions.length) {
+    renderResult();
   } else {
-    els.quiz.hidden = true;
-    els.results.hidden = false;
-    els.progressBar.style.width = '100%';
-    const percent = Math.round((correctCount / questions.length) * 100);
-    els.resultsSummary.textContent = `Správně jsi odpověděl/a na ${correctCount} z ${questions.length} otázek (${percent} %).`;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    renderQuestion();
+  }
+}
+
+function replay() {
+  if (confirm('Restartovat procvičování?')) {
+    restart();
   }
 }
 
 els.nextButton.addEventListener('click', nextQuestion);
-els.restartButton.addEventListener('click', startQuiz);
+els.restartButton.addEventListener('click', restart);
+els.replayButton.addEventListener('click', replay);
 init();

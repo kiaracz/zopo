@@ -18,13 +18,12 @@
         <h1>Zbrojní oprávnění</h1>
         <p class="subtitle">Procvičování otázek</p>
       </div>
+      <div class="header-buttons">
+        <button id="replay-button" class="header-button" aria-label="Restartovat"><span aria-hidden="true">⟳</span></button>
+      </div>
     </header>
 
     <section id="loading" class="panel status-panel" aria-live="polite">Načítám otázky…</section>
-    <section id="error" class="panel status-panel error-panel" role="alert" hidden>
-      <h2>Otázky se nepodařilo načíst</h2>
-      <p>Zkontroluj, že soubor <code>questions.json</code> je vedle souboru <code>index.html</code> a web je spuštěný přes webový server (například GitHub Pages), ne přímo jako soubor <code>file://</code>.</p>
-    </section>
 
     <section id="quiz" hidden>
       <div class="progress-row">
