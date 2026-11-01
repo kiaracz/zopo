@@ -31,11 +31,8 @@ h1 { margin: 0; font-size: clamp(1.3rem, 4vw, 1.8rem); line-height: 1.2; letter-
 .header-button { min-height: 48px; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 11px; background: #fff; font-weight: 750; cursor: pointer; }
 .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 8px 26px rgb(15 23 42 / 5%); }
 .status-panel { padding: 26px; }
-.progress-row { display: flex; justify-content: space-between; gap: 12px; margin: 0 2px 10px; color: var(--muted); font-size: .92rem; font-weight: 650; }
-.progress-track { height: 7px; overflow: hidden; margin-bottom: 18px; border-radius: 99px; background: #e2e8f0; }
-.progress-bar { height: 100%; width: 0; border-radius: inherit; background: var(--primary); transition: width .2s ease; }
 .question-panel { padding: clamp(20px, 4vw, 34px); }
-.question-number { margin-bottom: 18px; color: var(--primary); font-size: .86rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.question-number { margin-bottom: 18px; color: var(--primary); font-size: .86rem; font-weight: 800; letter-spacing: .04em; }
 .question-images { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 0 0 24px; }
 .question-images img { display: block; width: auto; max-width: 100%; max-height: 58vh; object-fit: contain; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
 .question-text { margin: 0 0 22px; font-size: clamp(1.1rem, 2.8vw, 1.35rem); line-height: 1.45; font-weight: 720; white-space: pre-line; }
@@ -64,7 +61,6 @@ h1 { margin: 0; font-size: clamp(1.3rem, 4vw, 1.8rem); line-height: 1.2; letter-
   .app-shell { padding: 18px 12px 30px; }
   .site-header { margin-bottom: 20px; }
   .brand-mark { width: 42px; height: 42px; flex-basis: 42px; border-radius: 12px; }
-  .progress-row { font-size: .82rem; }
   .question-panel { border-radius: 14px; }
   .answer-button { padding: 13px 12px; gap: 10px; }
   .question-images img { max-height: 48vh; }

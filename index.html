@@ -19,21 +19,15 @@
         <p class="subtitle">Procvičování otázek</p>
       </div>
       <div class="header-buttons">
-        <button id="replay-button" class="header-button" aria-label="Restartovat"><span aria-hidden="true">⟳</span></button>
+        <button id="replay-button" class="header-button" aria-label="Restartovat"><span aria-hidden="true" title="Restart">↺</span></button>
       </div>
     </header>
 
     <section id="loading" class="panel status-panel" aria-live="polite">Načítám otázky…</section>
 
     <section id="quiz" hidden>
-      <div class="progress-row">
-        <span id="progress-label">Otázka 1 z 837</span>
-        <span id="score-label">Správně: 0</span>
-      </div>
-      <div class="progress-track" aria-hidden="true"><div id="progress-bar" class="progress-bar"></div></div>
-
       <article class="panel question-panel">
-        <div class="question-number" id="question-number">Otázka č. 1</div>
+        <div class="question-number" id="question-number">Otázka 1 z 837</div>
         <div id="question-images" class="question-images" hidden></div>
         <h2 id="question-text" class="question-text"></h2>
         <div id="answers" class="answers" role="group" aria-label="Možnosti odpovědi"></div>
@@ -41,16 +35,12 @@
           <button id="next-button" class="primary-button" type="button" disabled>Další otázka <span aria-hidden="true">→</span></button>
         </div>
       </article>
-      <p class="footer-note">
-        <span id="version-label">Verze: 1.</span>
-        <span>Zdroj: <a href="https://mv.gov.cz/zbrojni-opravneni">https://mv.gov.cz/zbrojni-opravneni</a></span>
-      </p>
+      <p class="footer-note">Zdroj: <a href="https://mv.gov.cz/zbrojni-opravneni">https://mv.gov.cz/zbrojni-opravneni</a></p>
     </section>
 
     <section id="results" class="panel results-panel" hidden aria-live="polite">
       <div class="result-icon" aria-hidden="true">✓</div>
       <h2>Hotovo!</h2>
-      <p id="results-summary"></p>
       <button id="restart-button" class="primary-button" type="button">Procvičovat znovu</button>
     </section>
   </main>

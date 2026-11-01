@@ -2,25 +2,17 @@ const els = {
   loading: document.querySelector('#loading'),
   quiz: document.querySelector('#quiz'),
   results: document.querySelector('#results'),
-  progressLabel: document.querySelector('#progress-label'),
-  scoreLabel: document.querySelector('#score-label'),
-  progressBar: document.querySelector('#progress-bar'),
   questionNumber: document.querySelector('#question-number'),
   images: document.querySelector('#question-images'),
   questionText: document.querySelector('#question-text'),
   answers: document.querySelector('#answers'),
   nextButton: document.querySelector('#next-button'),
-  resultsSummary: document.querySelector('#results-summary'),
   restartButton: document.querySelector('#restart-button'),
-  replayButton: document.querySelector('#replay-button'),
-  versionLabel: document.querySelector('#version-label')
+  replayButton: document.querySelector('#replay-button')
 };
-
-const APP_VERSION = "2";
 
 let questions = [];
 let currentIndex = 0;
-let correctCount = 0;
 
 async function init() {
   const response = await fetch('questions.json');
@@ -32,19 +24,18 @@ async function init() {
 }
 
 function loadStatus() {
-  if (localStorage.getItem("version") !== APP_VERSION) {
-    localStorage.clear();
-    localStorage.setItem("version", APP_VERSION);
-    localStorage.setItem("currentIndex", '0');
-    localStorage.setItem("correctCount", '0');
+  if (localStorage.getItem("currentIndex") !== null) {
+    currentIndex = parseInt(localStorage.getItem("currentIndex"));
+  } else {
+    currentIndex = 0;
   }
 
-  currentIndex = parseInt(localStorage.getItem("currentIndex"));
-  correctCount = parseInt(localStorage.getItem("correctCount"));
+  
+  localStorage.clear();
+  localStorage.setItem("currentIndex", currentIndex.toString());
 }
 
 function storeStatus() {
-  localStorage.setItem("correctCount", correctCount.toString());
   localStorage.setItem("currentIndex", currentIndex.toString());
 }
 
@@ -63,14 +54,11 @@ function startQuiz() {
 
 function renderQuestion() {
   const question = questions[currentIndex];
-  els.progressLabel.textContent = `Otázka ${currentIndex + 1} z ${questions.length}`;
-  els.scoreLabel.textContent = `Správně: ${correctCount}`;
-  els.progressBar.style.width = `${(currentIndex / questions.length) * 100}%`;
-  els.questionNumber.textContent = `Číslo otázky: ${question.id}`;
+  els.questionNumber.textContent = `Otázka ${question.id} z ${questions.length}`;;
   els.questionText.textContent = question.text;
   els.nextButton.disabled = true;
   els.nextButton.innerHTML = currentIndex === questions.length - 1
-    ? 'Zobrazit výsledek <span aria-hidden="true">→</span>'
+    ? 'Konec <span aria-hidden="true">→</span>'
     : 'Další otázka <span aria-hidden="true">→</span>';
 
   els.images.replaceChildren();
@@ -118,10 +106,10 @@ function chooseAnswer(selectedAnswer, selectedButton) {
   });
 
   const isCorrect = selectedAnswer.correct === true;
-  if (isCorrect) correctCount++;
-  else selectedButton.classList.add('is-wrong');
+  if (!isCorrect) {
+    selectedButton.classList.add('is-wrong');
+  }
 
-  els.scoreLabel.textContent = `Správně: ${correctCount}`;
   els.nextButton.disabled = false;
   els.nextButton.focus({ preventScroll: true });
 }
@@ -129,9 +117,6 @@ function chooseAnswer(selectedAnswer, selectedButton) {
 function renderResult() {
   els.quiz.hidden = true;
   els.results.hidden = false;
-  els.progressBar.style.width = '100%';
-  const percent = Math.round((correctCount / questions.length) * 100);
-  els.resultsSummary.textContent = `Správně jsi odpověděl/a na ${correctCount} z ${questions.length} otázek (${percent} %).`;
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -158,5 +143,4 @@ function replay() {
 els.nextButton.addEventListener('click', nextQuestion);
 els.restartButton.addEventListener('click', restart);
 els.replayButton.addEventListener('click', replay);
-els.versionLabel.textContent = `Verze: ${APP_VERSION}.`;
 init();
