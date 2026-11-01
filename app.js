@@ -12,24 +12,15 @@ const els = {
   nextButton: document.querySelector('#next-button'),
   resultsSummary: document.querySelector('#results-summary'),
   restartButton: document.querySelector('#restart-button'),
-  replayButton: document.querySelector('#replay-button')
+  replayButton: document.querySelector('#replay-button'),
+  versionLabel: document.querySelector('#version-label')
 };
 
-const APP_VERSION = "v1";
+const APP_VERSION = "2";
 
 let questions = [];
-let indices = [];
 let currentIndex = 0;
 let correctCount = 0;
-
-function getRandomIndices() {
-  const result = Array.from({ length: questions.length }, (_, i) => i);
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
 
 async function init() {
   const response = await fetch('questions.json');
@@ -42,13 +33,12 @@ async function init() {
 
 function loadStatus() {
   if (localStorage.getItem("version") !== APP_VERSION) {
+    localStorage.clear();
     localStorage.setItem("version", APP_VERSION);
-    localStorage.setItem("indices", JSON.stringify(getRandomIndices()));
     localStorage.setItem("currentIndex", '0');
     localStorage.setItem("correctCount", '0');
   }
 
-  indices = JSON.parse(localStorage.getItem("indices"));
   currentIndex = parseInt(localStorage.getItem("currentIndex"));
   correctCount = parseInt(localStorage.getItem("correctCount"));
 }
@@ -71,12 +61,8 @@ function startQuiz() {
   renderScreen();
 }
 
-function getCurrentQuestion() {
-  return questions[indices[currentIndex]];
-}
-
 function renderQuestion() {
-  const question = getCurrentQuestion();
+  const question = questions[currentIndex];
   els.progressLabel.textContent = `Otázka ${currentIndex + 1} z ${questions.length}`;
   els.scoreLabel.textContent = `Správně: ${correctCount}`;
   els.progressBar.style.width = `${(currentIndex / questions.length) * 100}%`;
@@ -123,7 +109,7 @@ function renderQuestion() {
 }
 
 function chooseAnswer(selectedAnswer, selectedButton) {
-  const question = getCurrentQuestion();
+  const question = questions[currentIndex];
   const buttons = [...els.answers.querySelectorAll('button')];
   buttons.forEach((button, index) => {
     button.disabled = true;
@@ -172,4 +158,5 @@ function replay() {
 els.nextButton.addEventListener('click', nextQuestion);
 els.restartButton.addEventListener('click', restart);
 els.replayButton.addEventListener('click', replay);
+els.versionLabel.textContent = `Verze: ${APP_VERSION}.`;
 init();
