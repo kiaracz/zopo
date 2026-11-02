@@ -8,7 +8,10 @@ const els = {
   answers: document.querySelector('#answers'),
   nextButton: document.querySelector('#next-button'),
   restartButton: document.querySelector('#restart-button'),
-  replayButton: document.querySelector('#replay-button')
+  replayButton: document.querySelector('#replay-button'),
+  replayDialog: document.querySelector('#replay-dialog'),
+  replayButtonYes: document.querySelector('#replay-button-yes'),
+  replayButtonNo: document.querySelector('#replay-button-no')
 };
 
 let questions = [];
@@ -134,12 +137,21 @@ function renderScreen() {
 }
 
 function replay() {
-  if (confirm('Restartovat procvičování?')) {
-    restart();
-  }
+  els.replayDialog.showModal();
+}
+
+function replayYes() {
+  els.replayDialog.close();
+  restart();
+}
+
+function replayNo() {
+  els.replayDialog.close();
 }
 
 els.nextButton.addEventListener('click', nextQuestion);
 els.restartButton.addEventListener('click', restart);
 els.replayButton.addEventListener('click', replay);
+els.replayButtonYes.addEventListener('click', replayYes);
+els.replayButtonNo.addEventListener('click', replayNo);
 init();
