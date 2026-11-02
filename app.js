@@ -58,8 +58,8 @@ function renderQuestion() {
   els.questionText.textContent = question.text;
   els.nextButton.disabled = true;
   els.nextButton.innerHTML = currentIndex === questions.length - 1
-    ? 'Konec <span aria-hidden="true">→</span>'
-    : 'Další otázka <span aria-hidden="true">→</span>';
+    ? 'Konec →'
+    : 'Další otázka →';
 
   els.images.replaceChildren();
   const images = Array.isArray(question.images) ? question.images : [];
@@ -84,7 +84,6 @@ function renderQuestion() {
     const letter = document.createElement('span');
     letter.className = 'answer-letter';
     letter.textContent = `${answer.id})`;
-    letter.setAttribute('aria-hidden', 'true');
     const copy = document.createElement('span');
     copy.className = 'answer-copy';
     copy.textContent = answer.text;

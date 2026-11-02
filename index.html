@@ -13,33 +13,33 @@
 <body>
   <main class="app-shell">
     <header class="site-header">
-      <div class="brand-mark" aria-hidden="true">ZO</div>
+      <div class="brand-mark">ZO</div>
       <div>
         <h1>Zbrojní oprávnění</h1>
         <p class="subtitle">Procvičování otázek</p>
       </div>
       <div class="header-buttons">
-        <button id="replay-button" class="header-button" aria-label="Restartovat"><span aria-hidden="true" title="Restart">↺</span></button>
+        <button id="replay-button" class="header-button"><span title="Restart">↺</span></button>
       </div>
     </header>
 
-    <section id="loading" class="panel status-panel" aria-live="polite">Načítám otázky…</section>
+    <section id="loading" class="panel status-panel">Načítám otázky…</section>
 
     <section id="quiz" hidden>
       <article class="panel question-panel">
         <div class="question-number" id="question-number">Otázka 1 z 837</div>
         <div id="question-images" class="question-images" hidden></div>
         <h2 id="question-text" class="question-text"></h2>
-        <div id="answers" class="answers" role="group" aria-label="Možnosti odpovědi"></div>
+        <div id="answers" class="answers" role="group"></div>
         <div class="actions">
-          <button id="next-button" class="primary-button" type="button" disabled>Další otázka <span aria-hidden="true">→</span></button>
+          <button id="next-button" class="primary-button" type="button" disabled>Další otázka →</button>
         </div>
       </article>
       <p class="footer-note">Zdroj: <a href="https://mv.gov.cz/zbrojni-opravneni">https://mv.gov.cz/zbrojni-opravneni</a></p>
     </section>
 
-    <section id="results" class="panel results-panel" hidden aria-live="polite">
-      <div class="result-icon" aria-hidden="true">✓</div>
+    <section id="results" class="panel results-panel" hidden>
+      <div class="result-icon">✓</div>
       <h2>Hotovo!</h2>
       <button id="restart-button" class="primary-button" type="button">Procvičovat znovu</button>
     </section>
