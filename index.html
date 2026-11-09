@@ -18,8 +18,13 @@
         <h1>Zbrojní oprávnění</h1>
         <p class="subtitle">Procvičování otázek</p>
       </div>
-      <div class="header-buttons">
-        <button id="replay-button" class="header-button"><span title="Restart">↺</span></button>
+      <div class="actions">
+        <button id="first-button" class="secondary-button" type="button"><span title="První otázka">⏮</span></button>
+        <button id="rew-button" class="secondary-button" type="button" disabled>⏪︎</button>
+        <button id="prev-button" class="primary-button" type="button" disabled><span title="Předchozí otázka">◀</span></button>
+        <button id="next-button" class="primary-button" type="button" disabled><span title="Další otázka">▶</span></button>
+        <button id="ffw-button" class="secondary-button" type="button" disabled>⏩︎</button>
+        <button id="last-button" class="secondary-button" type="button"><span title="Poslední otázka">⏭</span></button>
       </div>
     </header>
 
@@ -27,29 +32,12 @@
 
     <section id="quiz" hidden>
       <article class="panel question-panel">
-        <div class="question-number" id="question-number">Otázka 1 z 837</div>
         <div id="question-images" class="question-images" hidden></div>
         <h2 id="question-text" class="question-text"></h2>
         <div id="answers" class="answers" role="group"></div>
-        <div class="actions">
-          <button id="next-button" class="primary-button" type="button" disabled>Další otázka →</button>
-        </div>
       </article>
-      <p class="footer-note">Zdroj: <a href="https://mv.gov.cz/zbrojni-opravneni">https://mv.gov.cz/zbrojni-opravneni</a></p>
-    </section>
-
-    <section id="results" class="panel results-panel" hidden>
-      <div class="result-icon">✓</div>
-      <h2>Hotovo!</h2>
-      <button id="restart-button" class="primary-button" type="button">Procvičovat znovu</button>
+      <footer>Zdroj: <a href="https://mv.gov.cz/zbrojni-opravneni">https://mv.gov.cz/zbrojni-opravneni</a></footer>
     </section>
   </main>
-  <dialog id="replay-dialog" class="panel">
-    <div class="question-text">↺ Začít odznova?</div>
-    <div class="replay-buttons">
-      <button id="replay-button-yes" class="replay-button" type="button">Ano</button>
-      <button id="replay-button-no" class="replay-button" type="button">Ne</button>
-    </div>
-  </dialog>
 </body>
 </html>
