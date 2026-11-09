@@ -39,7 +39,7 @@ function setCurrentIndex(currentIndex) {
 function renderQuestion() {
   const currentIndex = getCurrentIndex();
   const question = questions[currentIndex];
-  els.questionText.textContent = `${question.id} ${question.text}`;
+  els.questionText.textContent = `${question.id}) ${question.text}`;
   els.nextButton.disabled = currentIndex >= questions.length - 1;
   els.prevButton.disabled = currentIndex <= 0;
   els.firstButton.disabled = currentIndex === 0;
