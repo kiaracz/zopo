@@ -75,6 +75,7 @@ function renderQuestion() {
     copy.textContent = answer.text;
     button.append(letter, copy);
     button.addEventListener('click', () => chooseAnswer(answer, button));
+    button.id = `answer-button-${answer.id}`;
     els.answers.append(button);
   });
 }
@@ -96,15 +97,39 @@ function chooseAnswer(selectedAnswer, selectedButton) {
   els.nextButton.focus({ preventScroll: true });
 }
 
-els.nextButton.addEventListener('click', () => {
+function nextQuestion() {
   setCurrentIndex(getCurrentIndex() + 1);
   renderQuestion();
-});
+}
 
-els.prevButton.addEventListener('click', () => {
+function prevQuestion() {
   setCurrentIndex(getCurrentIndex() - 1);
   renderQuestion();
+}
+
+document.addEventListener('keydown', (event) => {
+  switch (event.code) {
+    case 'ArrowRight':
+      nextQuestion();
+      break;
+    case 'ArrowLeft':
+      prevQuestion();
+      break;
+    case 'KeyA':
+      document.getElementById('answer-button-A').click();
+      break;
+    case 'KeyB':
+      document.getElementById('answer-button-B').click();
+      break;
+    case 'KeyC':
+      document.getElementById('answer-button-C').click();
+      break;
+  }
 });
+
+els.nextButton.addEventListener('click', nextQuestion);
+
+els.prevButton.addEventListener('click', prevQuestion);
 
 els.firstButton.addEventListener('click', () => {
   setCurrentIndex(0);
