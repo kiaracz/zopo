@@ -77,8 +77,6 @@ function renderQuestion() {
     button.addEventListener('click', () => chooseAnswer(answer, button));
     els.answers.append(button);
   });
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function chooseAnswer(selectedAnswer, selectedButton) {
